@@ -33,5 +33,9 @@ public class Train {
 
     @OneToMany(mappedBy = "train", fetch = FetchType.LAZY)
     private List<Booking> bookings;
+
+    @Column(name = "available_seats", nullable = false)
+    private Integer availableSeats;
 }
+
 
