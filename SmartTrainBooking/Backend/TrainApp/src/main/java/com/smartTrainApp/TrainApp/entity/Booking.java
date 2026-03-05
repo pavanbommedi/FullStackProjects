@@ -6,6 +6,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.smartTrainApp.TrainApp.service.BookingStatus;
+
 @Entity
 @Table(name = "bookings")
 @Getter
@@ -42,7 +44,8 @@ public class Booking {
     private Integer seatCount;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
