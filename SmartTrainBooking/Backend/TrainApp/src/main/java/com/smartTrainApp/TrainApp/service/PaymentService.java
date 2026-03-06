@@ -4,11 +4,7 @@ import com.smartTrainApp.TrainApp.entity.Booking;
 import com.smartTrainApp.TrainApp.entity.Payment;
 
 public interface PaymentService {
-
-    static boolean processPayment(Booking booking , double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'processPayment'");
-    }
+    boolean processPayment(Booking booking, Double amount);
 
     void refundPayment(Payment payment);
 
