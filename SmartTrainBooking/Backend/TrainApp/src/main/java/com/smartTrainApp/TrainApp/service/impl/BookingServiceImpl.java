@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 
+import com.smartTrainApp.TrainApp.dto.BookingRequest;
 import com.smartTrainApp.TrainApp.entity.Booking;
 import com.smartTrainApp.TrainApp.entity.Station;
 import com.smartTrainApp.TrainApp.entity.Train;
@@ -30,8 +31,17 @@ public class BookingServiceImpl implements BookingService{
     private final PaymentServiceImpl paymentServiceImpl;
 
     @Transactional
-    public Booking createBooking(Long userId,Long trainId , int seatCount, Long sourceStationId
-        , Long destinationStationId, LocalDate bookingDate){
+    // public Booking createBooking(Long userId,Long trainId , int seatCount, Long sourceStationId
+    //     , Long destinationStationId, LocalDate bookingDate)
+    public Booking createBooking(BookingRequest request){  //Using DTO here
+
+        Long userId = request.getUserId();
+        Long trainId = request.getTrainId();
+        Long sourceStationId = request.getSourceStationId();
+        Long destinationStationId = request.getDestinationStationId();
+        int seatCount = request.getSeats();
+        LocalDate bookingDate = request.getBookingDate();
+
         User user = userRepository.findById(userId).orElseThrow(
             ()-> new RuntimeException("user not founc")
         );
