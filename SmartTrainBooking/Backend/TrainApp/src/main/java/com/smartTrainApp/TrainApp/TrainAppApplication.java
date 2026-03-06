@@ -1,15 +1,15 @@
 package com.smartTrainApp.TrainApp;
 
-import java.time.LocalDateTime;
+// import java.time.LocalDateTime;
 
-import org.springframework.boot.CommandLineRunner;
+// import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Bean;
 
-import com.smartTrainApp.TrainApp.entity.User;
-import com.smartTrainApp.TrainApp.entity.enums.Role;
-import com.smartTrainApp.TrainApp.repository.UserRepository;
+// import com.smartTrainApp.TrainApp.entity.User;
+// import com.smartTrainApp.TrainApp.entity.enums.Role;
+// import com.smartTrainApp.TrainApp.repository.UserRepository;
 
 @SpringBootApplication
 public class TrainAppApplication {

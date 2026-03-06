@@ -27,6 +27,7 @@ public class BookingServiceImpl implements BookingService{
     private final TrainRepository trainRepository;
     private final SeatAvailabilityServiceImpl seatAvailabilityServiceImpl;
     private final StationRepository stationRepository;
+    private final PaymentServiceImpl paymentServiceImpl;
 
     @Transactional
     public Booking createBooking(Long userId,Long trainId , int seatCount, Long sourceStationId
@@ -76,7 +77,7 @@ public class BookingServiceImpl implements BookingService{
         seatAvailabilityServiceImpl.lockSeats(trainId,seatCount);
 
         //ProcessPayment
-        boolean paymentSucces = paymentService.processPayment(seatCount*100);
+        boolean paymentSucces = paymentServiceImpl.processPayment( booking ,seatCount*100.10);
 
         if(!paymentSucces){
             seatAvailabilityServiceImpl.releaseSeats(trainId, seatCount);
@@ -85,6 +86,8 @@ public class BookingServiceImpl implements BookingService{
         }
 
         booking.setStatus(BookingStatus.CONFIRMED);
+
+        return booking;
 
     }
 
