@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Train;
+import com.smartTrainApp.TrainApp.mapper.TrainMapper;
 import com.smartTrainApp.TrainApp.repository.TrainRepository;
 import com.smartTrainApp.TrainApp.service.TrainService;
 
@@ -15,20 +17,27 @@ import lombok.RequiredArgsConstructor;
 public class TrainServiceImpl implements TrainService {
 
     private final TrainRepository trainRepository;
+    private final TrainMapper trainMapper;
 
-    public Train addTrain(Train train) {
+    public TrainResponseDTO addTrain(Train train) {
 
         train.setAvailableSeats(train.getTotalSeats());
-        return trainRepository.save(train);
+        trainRepository.save(train);
+
+        return trainMapper.toDTO(train);
     }
 
-    public List<Train> searchTrains(String source,String destination){
+    public List<TrainResponseDTO> searchTrains(String source,String destination){
 
-        return trainRepository.findTrainsBetweenStations(source,destination);
+        List<Train> trains = trainRepository.findTrainsBetweenStations(source,destination);
+
+        return trainMapper.toDTOList(trains);
     }
 
-    public Train getTrainDetails(Long Train_id){
-        return trainRepository.findById(Train_id).orElseThrow(()->new RuntimeException("Train Not Found"));
+    public TrainResponseDTO getTrainDetails(Long Train_id){
+        Train train = trainRepository.findById(Train_id).orElseThrow(
+            ()->new RuntimeException("Train Not Found"));
+        return trainMapper.toDTO(train);
     }
 
 

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.smartTrainApp.TrainApp.entity.Booking;
+import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
+import com.smartTrainApp.TrainApp.dto.response.StationResponseDTO;
+import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Station;
 import com.smartTrainApp.TrainApp.entity.Train;
 import com.smartTrainApp.TrainApp.service.AdminService;
@@ -28,12 +30,12 @@ public class AdminController {
 
 
     @PostMapping("/train")
-    public Train addTrain(@RequestBody Train train) {
+    public TrainResponseDTO addTrain(@RequestBody Train train) {
         return adminService.addTrain(train);
     }
 
     @PostMapping("/station")
-    public Station addStation(@RequestBody Station station) {
+    public StationResponseDTO addStation(@RequestBody Station station) {
         return stationService.createStation(station);
     }
 
@@ -43,7 +45,7 @@ public class AdminController {
     }
 
     @GetMapping("/bookings")
-    public List<Booking> getAllBookings(){
+    public List<BookingResponseDTO> getAllBookings(){
         return adminService.getAllBookings();
     }
 

@@ -2,14 +2,15 @@ package com.smartTrainApp.TrainApp.service;
 
 import java.util.List;
 
-import com.smartTrainApp.TrainApp.entity.Booking;
-import com.smartTrainApp.TrainApp.entity.User;
+import com.smartTrainApp.TrainApp.dto.request.RegisterUserRequest;
+import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
+import com.smartTrainApp.TrainApp.dto.response.UserResponseDTO;
 
 public interface UserService {
-    User registerUser(User user);
+    UserResponseDTO registerUser(RegisterUserRequest user);
 
-    User getUserById(Long userId);
+    UserResponseDTO getUserById(Long userId);
 
-    List<Booking> getUserBookings(Long userId);
+    List<BookingResponseDTO> getUserBookings(Long userId);
 
 }

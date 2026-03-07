@@ -2,14 +2,15 @@ package com.smartTrainApp.TrainApp.service;
 
 import java.util.List;
 
+import com.smartTrainApp.TrainApp.dto.response.StationResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Station;
 
 public interface StationService {
 
-    Station createStation(Station station);
+    StationResponseDTO createStation(Station station);
 
-    List<Station> getAllStations();
+    List<StationResponseDTO> getAllStations();
 
-    Station getStationByCode(String code);
+    StationResponseDTO getStationByCode(String code);
 
 }

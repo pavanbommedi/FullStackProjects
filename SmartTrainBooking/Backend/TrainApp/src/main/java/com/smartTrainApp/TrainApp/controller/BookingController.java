@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartTrainApp.TrainApp.dto.BookingRequest;
-import com.smartTrainApp.TrainApp.entity.Booking;
+import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
 import com.smartTrainApp.TrainApp.service.BookingService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,17 +22,17 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public Booking createBooking(@RequestBody BookingRequest booking){  //Using DTO here
-        return bookingService.createBooking(booking);
+    public BookingResponseDTO createBooking(@RequestBody BookingRequest request){  //Using DTO here
+        return bookingService.createBooking(request);
     }
 
     @DeleteMapping("/cancel/{bookind_id}")
-    public Booking cancelBooking(@PathVariable Long bookingId){
+    public BookingResponseDTO cancelBooking(@PathVariable Long bookingId){
         return bookingService.cancelBooking(bookingId);
     }
 
     @GetMapping("/{booking_id}")
-    public Booking getBookingDetails(@PathVariable Long bookingId){
+    public BookingResponseDTO getBookingDetails(@PathVariable Long bookingId){
         return bookingService.getBookingDetails(bookingId);
     }
 

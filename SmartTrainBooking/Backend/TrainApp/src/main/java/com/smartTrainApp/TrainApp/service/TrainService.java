@@ -2,14 +2,15 @@ package com.smartTrainApp.TrainApp.service;
 
 import java.util.List;
 
+import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Train;
 
 public interface TrainService {
 
-    Train addTrain(Train train);
+    TrainResponseDTO addTrain(Train train);
 
-    List<Train> searchTrains(String source,String destination);
+    List<TrainResponseDTO> searchTrains(String source,String destination);
 
-    Train getTrainDetails(Long train_id);
+    TrainResponseDTO getTrainDetails(Long train_id);
 
 }

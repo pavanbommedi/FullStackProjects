@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.smartTrainApp.TrainApp.dto.response.StationResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Station;
 import com.smartTrainApp.TrainApp.service.StationService;
 
@@ -22,17 +23,17 @@ public class StationController {
     private final StationService stationService;
 
     @PostMapping
-    public Station createStation(@RequestBody Station station){
+    public StationResponseDTO createStation(@RequestBody Station station){
         return stationService.createStation(station);
     }
 
     @GetMapping
-    public List<Station> getAllStations(){
+    public List<StationResponseDTO> getAllStations(){
         return stationService.getAllStations();
     }
 
     @GetMapping("/{code}")
-    public Station getStationByCode(@PathVariable String code){
+    public StationResponseDTO getStationByCode(@PathVariable String code){
         return stationService.getStationByCode(code);
     }
 }
