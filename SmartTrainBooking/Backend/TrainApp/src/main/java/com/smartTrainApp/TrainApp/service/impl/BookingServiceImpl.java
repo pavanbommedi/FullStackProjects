@@ -10,6 +10,10 @@ import com.smartTrainApp.TrainApp.entity.Booking;
 import com.smartTrainApp.TrainApp.entity.Station;
 import com.smartTrainApp.TrainApp.entity.Train;
 import com.smartTrainApp.TrainApp.entity.User;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.BookingException;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.PaymentFailedExceptions;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.ResourceNotFoundException;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.UnAvailableSeatsException;
 import com.smartTrainApp.TrainApp.mapper.BookingMapper;
 import com.smartTrainApp.TrainApp.repository.BookingRepository;
 import com.smartTrainApp.TrainApp.repository.StationRepository;
@@ -46,27 +50,27 @@ public class BookingServiceImpl implements BookingService{
     LocalDate bookingDate = request.getBookingDate();
 
     User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found "+userId));
 
     Train train = trainRepository.findById(trainId)
-            .orElseThrow(() -> new RuntimeException("Train not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Train not found "+trainId ));
 
     if(sourceStationId.equals(destinationStationId)){
-        throw new RuntimeException("Source and destination cannot be same");
+        throw new BookingException("Source and destination cannot be same");
     }
 
     Station sourceStation = stationRepository.findById(sourceStationId)
-            .orElseThrow(() -> new RuntimeException("Source station not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Source station not found "+sourceStationId));
 
     Station destinationStation = stationRepository.findById(destinationStationId)
-            .orElseThrow(() -> new RuntimeException("Destination station not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("Destination station not found "+destinationStationId));
 
     if(train.getAvailableSeats() < seatCount){
-        throw new RuntimeException("Not enough seats available");
+        throw new UnAvailableSeatsException("Not enough seats available");
     }
 
     if(bookingDate.isBefore(LocalDate.now())){
-        throw new RuntimeException("Booking date cannot be in the past");
+        throw new BookingException("Booking date cannot be in the past");
     }
 
     // Convert DTO → Entity
@@ -90,7 +94,7 @@ public class BookingServiceImpl implements BookingService{
         seatAvailabilityServiceImpl.releaseSeats(trainId, seatCount);
         booking.setStatus(BookingStatus.FAILED);
         bookingRepository.save(booking);
-        throw new RuntimeException("Payment failed");
+        throw new PaymentFailedExceptions("Payment failed");
     }
 
     booking.setStatus(BookingStatus.CONFIRMED);
@@ -104,10 +108,10 @@ public class BookingServiceImpl implements BookingService{
     @Transactional
     public BookingResponseDTO cancelBooking(Long bookingId){
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(
-            ()-> new RuntimeException("No booking found")
+            ()-> new ResourceNotFoundException("No booking found "+bookingId)
         );
          if (!"CONFIRMED".equals(booking.getStatus())) {
-            throw new RuntimeException("Only confirmed bookings can be cancelled");
+            throw new BookingException("Only confirmed bookings can be cancelled "+bookingId);
         }
         //release seats
         seatAvailabilityServiceImpl.releaseSeats(booking.getTrain().getId(), booking.getSeatCount());
@@ -119,7 +123,7 @@ public class BookingServiceImpl implements BookingService{
 
     public BookingResponseDTO getBookingDetails(Long bookingId){
          Booking booking =  bookingRepository.findById(bookingId).orElseThrow(
-            ()->new RuntimeException("Booking not found")
+            ()->new ResourceNotFoundException("Booking not found "+bookingId)
          );
 
          return bookingMapper.toDTO(booking);

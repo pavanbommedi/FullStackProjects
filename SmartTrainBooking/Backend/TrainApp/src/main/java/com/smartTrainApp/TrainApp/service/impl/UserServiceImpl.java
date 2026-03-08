@@ -9,6 +9,8 @@ import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
 import com.smartTrainApp.TrainApp.dto.response.UserResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Booking;
 import com.smartTrainApp.TrainApp.entity.User;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.EmailAlreadyRegisteredException;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.ResourceNotFoundException;
 import com.smartTrainApp.TrainApp.mapper.BookingMapper;
 import com.smartTrainApp.TrainApp.mapper.UserMapper;
 import com.smartTrainApp.TrainApp.repository.BookingRepository;
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO registerUser(RegisterUserRequest request){
         User user = userMapper.toEntity(request);
         if(userRepository.findByEmail(user.getEmail()).isPresent()){
-            throw new RuntimeException("Email already registered");
+            throw new EmailAlreadyRegisteredException("Email already registered");
         }
         userRepository.save(user);
         return userMapper.toDto(user);
@@ -44,7 +46,7 @@ public class UserServiceImpl implements UserService{
 
     public UserResponseDTO getUserById(Long userId){
         User user = userRepository.findById(userId)
-        .orElseThrow(()->new RuntimeException("user not found"));
+        .orElseThrow(()->new ResourceNotFoundException("user not found "+userId));
 
         return userMapper.toDto(user);
     }

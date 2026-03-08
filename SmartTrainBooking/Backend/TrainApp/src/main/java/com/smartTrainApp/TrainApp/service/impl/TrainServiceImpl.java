@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Train;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.ResourceNotFoundException;
 import com.smartTrainApp.TrainApp.mapper.TrainMapper;
 import com.smartTrainApp.TrainApp.repository.TrainRepository;
 import com.smartTrainApp.TrainApp.service.TrainService;
@@ -34,9 +35,9 @@ public class TrainServiceImpl implements TrainService {
         return trainMapper.toDTOList(trains);
     }
 
-    public TrainResponseDTO getTrainDetails(Long Train_id){
-        Train train = trainRepository.findById(Train_id).orElseThrow(
-            ()->new RuntimeException("Train Not Found"));
+    public TrainResponseDTO getTrainDetails(Long train_id){
+        Train train = trainRepository.findById(train_id).orElseThrow(
+            ()->new ResourceNotFoundException("Train Not Found "+train_id));
         return trainMapper.toDTO(train);
     }
 

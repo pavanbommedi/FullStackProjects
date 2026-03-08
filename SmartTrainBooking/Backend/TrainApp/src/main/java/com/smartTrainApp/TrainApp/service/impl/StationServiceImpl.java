@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.smartTrainApp.TrainApp.dto.response.StationResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Station;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.ResourceNotFoundException;
 import com.smartTrainApp.TrainApp.mapper.StationMapper;
 import com.smartTrainApp.TrainApp.repository.StationRepository;
 import com.smartTrainApp.TrainApp.service.StationService;
@@ -31,7 +32,7 @@ public class StationServiceImpl implements StationService {
 
     public StationResponseDTO getStationByCode(String code){
         Station station = stationRepository.findByCode(code).orElseThrow(
-            ()->new RuntimeException("No station found with the code")
+            ()->new ResourceNotFoundException("No station found with the code "+code)
         );
         return stationMapper.toDto(station);
     }

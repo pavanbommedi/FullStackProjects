@@ -8,6 +8,7 @@ import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
 import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Booking;
 import com.smartTrainApp.TrainApp.entity.Train;
+import com.smartTrainApp.TrainApp.exception.CustomExceptions.ResourceNotFoundException;
 import com.smartTrainApp.TrainApp.mapper.BookingMapper;
 import com.smartTrainApp.TrainApp.mapper.TrainMapper;
 import com.smartTrainApp.TrainApp.repository.BookingRepository;
@@ -39,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
 
     public void removeTrain(Long trainId){
         Train train = trainRepository.findById(trainId).orElseThrow(
-            ()->new RuntimeException("Train not found")
+            ()->new ResourceNotFoundException("Train not found "+trainId)
         );
         trainRepository.delete(train);
     }
