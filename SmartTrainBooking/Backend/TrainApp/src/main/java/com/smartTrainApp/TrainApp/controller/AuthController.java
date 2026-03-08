@@ -9,6 +9,7 @@ import com.smartTrainApp.TrainApp.dto.request.RegisterUserRequest;
 import com.smartTrainApp.TrainApp.dto.response.UserResponseDTO;
 import com.smartTrainApp.TrainApp.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -18,7 +19,7 @@ public class AuthController {
 
     private final UserService userService;
     @PostMapping("/register")
-    public UserResponseDTO registerUser(@RequestBody RegisterUserRequest request){
+    public UserResponseDTO registerUser(@Valid @RequestBody RegisterUserRequest request){
         return userService.registerUser(request);
     }
     //Login

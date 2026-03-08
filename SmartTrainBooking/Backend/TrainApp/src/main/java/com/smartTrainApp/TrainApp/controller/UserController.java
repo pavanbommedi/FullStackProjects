@@ -11,6 +11,7 @@ import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
 import com.smartTrainApp.TrainApp.dto.response.UserResponseDTO;
 import com.smartTrainApp.TrainApp.service.UserService;
 
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,13 +22,13 @@ public class UserController {
     private final UserService userService;
     //get user by id
     @GetMapping("/{id}")
-    public UserResponseDTO getUserById(@PathVariable Long id){
+    public UserResponseDTO getUserById(@PathVariable @Min(value = 1, message = "Invalid user id") Long id){
         return userService.getUserById(id);
     }
 
     //get all user bookings by user id
     @GetMapping("/{id}/bookings")
-    public List<BookingResponseDTO> getBookingsByUserId(@PathVariable Long id ){
+    public List<BookingResponseDTO> getBookingsByUserId(@PathVariable  @Min(value = 1, message = "Invalid booking id") Long id ){
         return userService.getUserBookings(id);
     }
 

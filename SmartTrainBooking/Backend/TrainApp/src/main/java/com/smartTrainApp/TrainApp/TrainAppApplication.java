@@ -25,7 +25,7 @@ public class TrainAppApplication {
 //        User user = User.builder()
 //         .name("Admin")
 //         .email("admin@gmail.com")
-//         .password("admin123")  // 🔥 ADD THIS
+//         .password("admin123") 
 //         .role(Role.ADMIN)
 //         .createdAt(LocalDateTime.now())
 //         .build();

@@ -13,6 +13,8 @@ import com.smartTrainApp.TrainApp.dto.response.StationResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Station;
 import com.smartTrainApp.TrainApp.service.StationService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,7 +25,7 @@ public class StationController {
     private final StationService stationService;
 
     @PostMapping
-    public StationResponseDTO createStation(@RequestBody Station station){
+    public StationResponseDTO createStation(@Valid @RequestBody Station station){
         return stationService.createStation(station);
     }
 
@@ -33,7 +35,7 @@ public class StationController {
     }
 
     @GetMapping("/{code}")
-    public StationResponseDTO getStationByCode(@PathVariable String code){
+    public StationResponseDTO getStationByCode(@PathVariable @Min(value = 1, message = "Invalid code") String code){
         return stationService.getStationByCode(code);
     }
 }

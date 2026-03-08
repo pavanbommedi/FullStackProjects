@@ -14,6 +14,8 @@ import com.smartTrainApp.TrainApp.dto.response.TrainResponseDTO;
 import com.smartTrainApp.TrainApp.entity.Train;
 import com.smartTrainApp.TrainApp.service.TrainService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +26,7 @@ public class TrainController {
     private final TrainService trainService;
 
     @PostMapping
-    public TrainResponseDTO addTrain(@RequestBody Train train){
+    public TrainResponseDTO addTrain(@Valid @RequestBody Train train){
         return trainService.addTrain(train);
     }
 
@@ -35,8 +37,8 @@ public class TrainController {
     }
 
     @GetMapping("/{id}")
-    public TrainResponseDTO getTrainById(@PathVariable Long id){
-        return trainService.getTrainDetails(id);
+    public TrainResponseDTO getTrainById(@PathVariable @Min(value = 1, message = "Invalid train id") Long train_id){
+        return trainService.getTrainDetails(train_id);
     }
 
 

@@ -12,6 +12,8 @@ import com.smartTrainApp.TrainApp.dto.BookingRequest;
 import com.smartTrainApp.TrainApp.dto.response.BookingResponseDTO;
 import com.smartTrainApp.TrainApp.service.BookingService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -22,17 +24,17 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public BookingResponseDTO createBooking(@RequestBody BookingRequest request){  //Using DTO here
+    public BookingResponseDTO createBooking(@Valid @RequestBody BookingRequest request){  //Using DTO here
         return bookingService.createBooking(request);
     }
 
     @DeleteMapping("/cancel/{bookind_id}")
-    public BookingResponseDTO cancelBooking(@PathVariable Long bookingId){
+    public BookingResponseDTO cancelBooking(@PathVariable @Min(value = 1, message = "Invalid booking id") Long bookingId){
         return bookingService.cancelBooking(bookingId);
     }
 
     @GetMapping("/{booking_id}")
-    public BookingResponseDTO getBookingDetails(@PathVariable Long bookingId){
+    public BookingResponseDTO getBookingDetails(@PathVariable @Min(value = 1, message = "Invalid booking id") Long bookingId){
         return bookingService.getBookingDetails(bookingId);
     }
 

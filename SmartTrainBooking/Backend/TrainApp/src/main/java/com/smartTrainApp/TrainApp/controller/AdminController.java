@@ -18,6 +18,8 @@ import com.smartTrainApp.TrainApp.entity.Train;
 import com.smartTrainApp.TrainApp.service.AdminService;
 import com.smartTrainApp.TrainApp.service.StationService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,17 +32,17 @@ public class AdminController {
 
 
     @PostMapping("/train")
-    public TrainResponseDTO addTrain(@RequestBody Train train) {
+    public TrainResponseDTO addTrain(@Valid @RequestBody Train train) {
         return adminService.addTrain(train);
     }
 
     @PostMapping("/station")
-    public StationResponseDTO addStation(@RequestBody Station station) {
+    public StationResponseDTO addStation( @Valid @RequestBody Station station) {
         return stationService.createStation(station);
     }
 
     @DeleteMapping("/train/{trainId}")
-    public void removeTrain(@PathVariable Long trainId){
+    public void removeTrain(@PathVariable @Min(value = 1, message = "Invalid train id") Long trainId){
         adminService.removeTrain(trainId);
     }
 
