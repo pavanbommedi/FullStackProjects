@@ -33,3 +33,59 @@ Refresh tokens (production-grade)
 Phase 8
 
 OAuth2 + OpenID Connect login
+
+
+------------------------------------
+AuthorizationFilter
+       ↓
+Check SecurityContext
+       ↓
+Is user authenticated?
+       ↓
+Yes → Continue
+No → 401 Unauthorized
+
+---------------------------------
+
+Client Request
+      ↓
+SecurityFilterChain
+      ↓
+BasicAuthenticationFilter
+      ↓
+Extract username/password
+      ↓
+AuthenticationManager
+      ↓
+DaoAuthenticationProvider
+      ↓
+UserDetailsService
+      ↓
+InMemoryUserDetailsManager
+      ↓
+Find user
+      ↓
+Password match
+      ↓
+Authentication success
+      ↓
+SecurityContextHolder
+      ↓
+AuthorizationFilter
+      ↓
+Controller
+
+----------------------------------------
+Client sends username/password
+        ↓
+Spring Security
+        ↓
+CustomUserDetailsService.loadUserByUsername()
+        ↓
+UserRepository.findByEmail()
+        ↓
+Fetch User entity from DB
+        ↓
+Convert to Spring Security User
+        ↓
+AuthenticationManager validates password

@@ -2,6 +2,7 @@ package com.smartTrainApp.TrainApp.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class AdminController {
     public void removeTrain(@PathVariable @Min(value = 1, message = "Invalid train id") Long trainId){
         adminService.removeTrain(trainId);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/bookings")
     public List<BookingResponseDTO> getAllBookings(){
         return adminService.getAllBookings();
